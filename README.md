@@ -13,9 +13,11 @@ pnpm dev
 # or
 bun dev
 ```
-
+```bash
 System email for admin : system@gmail.com
 System password for admin : Admin@23
+
+```
 Deployed URL : https://reviewhivesystem.vercel.app
 
 
