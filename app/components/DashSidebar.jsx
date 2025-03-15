@@ -29,12 +29,15 @@ const DashSidebar = () => {
           <FaPlus /> <span>Add Store</span>
         </li>
         </Link>
-        <li className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded">
-          <FaStore /> <span>List of Stores</span>
-        </li>
+        <Link href="/users">
         <li className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded">
           <FaUsers /> <span>List of Users</span>
         </li>
+        </Link>
+        <li className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded">
+          <FaStore /> <span>List of Stores</span>
+        </li>
+        
       </ul>
     </div>
   );

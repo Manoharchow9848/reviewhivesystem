@@ -140,7 +140,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="h-screen mt-2 w-full flex items-center justify-center bg-black">
+    <div className="h-screen  w-full flex items-center justify-center bg-black">
       <Card className="bg-gray-900 text-white p-10 shadow-xl w-full max-w-4xl">
         <CardHeader className="flex flex-col items-center">
          
