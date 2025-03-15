@@ -47,6 +47,9 @@ function Header() {
               <DropdownMenuItem asChild>
                 <Link href="/profile">Profile</Link>
               </DropdownMenuItem>
+              {user?.role==="system" && <DropdownMenuItem asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>}
               <DropdownMenuItem onClick={() =>{ localStorage.removeItem("user"); setUserDetail(null)}} className="text-red-500">
                 Logout
               </DropdownMenuItem>

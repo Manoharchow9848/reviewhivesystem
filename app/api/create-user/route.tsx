@@ -6,8 +6,8 @@ import { eq } from "drizzle-orm";
 import bcrypt from 'bcryptjs';
 export async function POST(req: NextRequest) {
     try {
-        const { name, email, password, address } = await req.json();
-        const role = "user";
+        const { name, email, password, address,role } = await req.json();
+        
         const userId = uuidv4();
 
         // Check if user already exists

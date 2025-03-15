@@ -28,6 +28,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
     address: "",
+    role:"user",
   });
 
   const handleChange = (e) => {
