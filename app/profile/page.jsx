@@ -1,4 +1,5 @@
 "use client";
+import withAuth from "../hoc/withAuth";
 import React, { useState, useContext, useEffect } from "react";
 import { UserDetailContext } from "../../context/userDetailContext";
 import { Input } from "../../components/ui/input";
@@ -10,15 +11,21 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../db/firebaseConfig";
+import { useRouter } from "next/navigation";
 const ProfilePage = () => {
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
-
+   const router = useRouter();
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    if (storedUser) {
-      setUserDetail(storedUser);
-    }
-  }, []);
+        if(localStorage.getItem("user") === null){
+          router.push("/login");
+        }
+        if(userDetail){
+          setName(userDetail.name);
+          setEmail(userDetail.email);
+          setAddress(userDetail.address);
+          setProfilePic(userDetail.profilePic);
+        }
+  }, [userDetail]);
 
   const [name, setName] = useState(userDetail?.name || "");
   const [email, setEmail] = useState(userDetail?.email || "");
@@ -192,7 +199,7 @@ const ProfilePage = () => {
 
             <Button
               onClick={handleUpdateProfile}
-              className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg w-full"
+              className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg w-full cursor-pointer"
               disabled={loading}
             >
               {loading ? <LoaderCircle className="animate-spin mr-2" size={18} /> : "Update Profile"}
@@ -252,4 +259,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default withAuth(ProfilePage);
