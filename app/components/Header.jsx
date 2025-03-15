@@ -30,6 +30,14 @@ function Header() {
         <Link href="/stores" className="hover:text-gray-300">Stores</Link>
       </nav>
 
+      {
+        user?.role === "store-owner" && (
+          <nav className="hidden md:flex space-x-6">
+            <Link href="/owner-dashboard" className="hover:text-gray-300">Store Owner Dashboard</Link>
+          </nav>
+        )
+      }
+          
       {/* User Profile & Dropdown */}
       <div className="flex items-center space-x-4">
         {user ? (

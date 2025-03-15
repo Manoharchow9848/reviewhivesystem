@@ -1,4 +1,5 @@
 
+import { count } from "drizzle-orm";
 import { integer, jsonb, pgTable, varchar } from "drizzle-orm/pg-core";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,4 +25,6 @@ export const storesTable = pgTable("stores", {
   email: varchar({ length: 255 }).notNull().references(() => usersTable.email, { onDelete: "cascade" }),
   storeProfilePic: varchar(),
   storeId: varchar().notNull().unique(),
+  overallRating: integer().default(0),
+  count : integer().default(0),
 });

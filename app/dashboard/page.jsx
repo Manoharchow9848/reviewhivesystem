@@ -124,7 +124,7 @@ const countStores = async () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <h2 className="text-4xl font-bold">400</h2>
+            <h2 className="text-4xl font-bold">9</h2>
           </CardContent>
           
         </Card>
