@@ -3,7 +3,7 @@ import { usersTable } from '../../../db/schema';
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
-
+import bcrypt from 'bcryptjs';
 export async function POST(req: NextRequest) {
     try {
         const { email, password } = await req.json();
@@ -14,9 +14,10 @@ export async function POST(req: NextRequest) {
         if (user.length === 0) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
+          const validPassword = bcrypt.compareSync(password, user[0].password);
 
         // Check if password is correct
-        if (user[0].password !== password) {
+        if (validPassword === false) {
             return NextResponse.json({ message: "Incorrect password" }, { status: 401 });
         }
         const { password: _, ...safeUser } = user[0];

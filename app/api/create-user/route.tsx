@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { usersTable } from '../../../db/schema';
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-
+import bcrypt from 'bcryptjs';
 export async function POST(req: NextRequest) {
     try {
         const { name, email, password, address } = await req.json();
@@ -18,10 +18,11 @@ export async function POST(req: NextRequest) {
         }
 
         // Insert new user
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await db.insert(usersTable).values({
             name,
             email,
-            password,
+            password:hashedPassword,
             address,
             role,
             userId
