@@ -39,6 +39,11 @@ const DashSidebar = () => {
           <FaStore /> <span>List of Stores</span>
         </li>
         </Link>
+        <Link href="/add-admin">
+        <li className="flex items-center gap-2 hover:bg-blue-800 p-2 rounded">
+          <FaUser /> <span>Add Admin</span>
+        </li>
+        </Link>
         
       </ul>
     </div>

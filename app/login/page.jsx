@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
@@ -20,18 +20,17 @@ const LoginPage = () => {
   const [loading, setLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
- const {userDetail,setUserDetail} = React.useContext(UserDetailContext);
+  const { userDetail, setUserDetail } = React.useContext(UserDetailContext);
   const handleLogin = async () => {
     if (!email || !password) {
       toast.error("Please enter both email and password.");
-     
+
       return;
     }
     const toastId = toast.loading("Logging in...");
     try {
       setLoading(true);
-      
-  
+
       const response = await fetch("/api/login", {
         method: "POST", // Use POST for sending login credentials
         headers: {
@@ -42,19 +41,19 @@ const LoginPage = () => {
           password: password,
         }),
       });
-  
+
       if (!response.ok) {
-       toast.error("Login failed. Please check your credentials.");
-       toast.dismiss(toastId);
-       setLoading(false);
-       return;
+        toast.error("Login failed. Please check your credentials.");
+        toast.dismiss(toastId);
+        setLoading(false);
+        return;
       }
-  
+
       const result = await response.json();
       localStorage.setItem("user", JSON.stringify(result.user));
       setUserDetail(result.user);
       console.log("Login successful:", result);
-      toast.success("Login successful! Welcome back!", );
+      toast.success("Login successful! Welcome back!");
       router.push("/");
       toast.dismiss(toastId);
       setLoading(false);
@@ -65,14 +64,17 @@ const LoginPage = () => {
       toast.dismiss(toastId);
     }
   };
-  
 
   return (
     <div className="h-screen flex items-center justify-center bg-black text-white ">
       <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-96">
         <Store color="green" className="mx-auto mb-4" />
-        <h1 className="text-4xl font-bold text-center mb-6 text-gray-500">Review Hive</h1>
-        <h2 className="text-2xl font-extrabold text-center mb-6 text-gray-700">Login</h2>
+        <h1 className="text-4xl font-bold text-center mb-6 text-gray-500">
+          Review Hive
+        </h1>
+        <h2 className="text-2xl font-extrabold text-center mb-6 text-gray-700">
+          Login
+        </h2>
 
         {/* Email Input */}
         <div>
@@ -99,8 +101,15 @@ const LoginPage = () => {
         </div>
 
         {/* Login Button */}
-        <Button onClick={handleLogin} className="w-full bg-blue-500 hover:bg-blue-600 mt-6 cursor-pointer">
-          {loading ? <LoaderCircle className="animate-spin mr-2" size={16} /> : "Login"}
+        <Button
+          onClick={handleLogin}
+          className="w-full bg-blue-500 hover:bg-blue-600 mt-6 cursor-pointer"
+        >
+          {loading ? (
+            <LoaderCircle className="animate-spin mr-2" size={16} />
+          ) : (
+            "Login"
+          )}
         </Button>
 
         {/* Signup Link */}
@@ -111,7 +120,6 @@ const LoginPage = () => {
           </Link>
         </p>
       </div>
-      
     </div>
   );
 };

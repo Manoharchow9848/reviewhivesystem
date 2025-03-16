@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
-
+import withDashAuth from "../hoc/withDashAuth";
 const ListOfUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -125,4 +125,4 @@ const ListOfUsersPage = () => {
   );
 };
 
-export default ListOfUsersPage;
+export default withDashAuth(ListOfUsersPage);

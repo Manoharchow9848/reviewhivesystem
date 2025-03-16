@@ -37,7 +37,13 @@ function Header() {
           </nav>
         )
       }
-          
+         {
+        user?.role === "system" && (
+          <nav className="hidden md:flex space-x-6">
+            <Link href="/dashboard" className="hover:text-gray-300">Admin Dashboard</Link>
+          </nav>
+        )
+      }  
       {/* User Profile & Dropdown */}
       <div className="flex items-center space-x-4">
         {user ? (

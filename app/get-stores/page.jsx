@@ -1,5 +1,5 @@
 "use client";
-
+import withDashAuth from "../hoc/withDashAuth";
 import React, { useEffect, useState } from "react";
 import {
   Table,
@@ -42,9 +42,11 @@ const GetStoresPage = () => {
 
     const newFilteredStores = stores.filter((store) =>
       Object.keys(filters).every((key) =>
-        store[key]?.toLowerCase().includes(
-          key === name ? value.toLowerCase() : filters[key].toLowerCase()
-        )
+        store[key]
+          ?.toLowerCase()
+          .includes(
+            key === name ? value.toLowerCase() : filters[key].toLowerCase()
+          )
       )
     );
 
@@ -99,11 +101,16 @@ const GetStoresPage = () => {
           <TableBody>
             {filteredStores.length > 0 ? (
               filteredStores.map((store) => (
-                <TableRow key={store.id} className="border-b border-gray-700 hover:bg-gray-800">
+                <TableRow
+                  key={store.id}
+                  className="border-b border-gray-700 hover:bg-gray-800"
+                >
                   <TableCell className="text-white">{store.name}</TableCell>
                   <TableCell className="text-white">{store.email}</TableCell>
                   <TableCell className="text-white">{store.address}</TableCell>
-                  <TableCell className="text-white">{store.overallRating}</TableCell>
+                  <TableCell className="text-white">
+                    {store.overallRating}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -120,4 +127,4 @@ const GetStoresPage = () => {
   );
 };
 
-export default GetStoresPage;
+export default withDashAuth(GetStoresPage);

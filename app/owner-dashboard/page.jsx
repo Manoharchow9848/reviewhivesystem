@@ -1,14 +1,28 @@
 "use client";
-
+import withOwnerAuth from "../hoc/withOwnerAuth";
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../components/ui/table";
+import { UserDetailContext } from "../../context/userDetailContext";
 
 const Dashboard = () => {
   const [storeData, setStoreData] = useState({ ratings: [], count: 0 });
   const [averageRating, setAverageRating] = useState(0);
+  const [stores, setStores] = useState([]);
+  const {userDetail,setUserDetail} = React.useContext(UserDetailContext);
+  const [email,setEmail] = useState("");
 
   useEffect(() => {
+    
+    
     fetchStoreData();
+   
   }, []);
 
   const fetchStoreData = async () => {
@@ -17,15 +31,24 @@ const Dashboard = () => {
       if (!response.ok) throw new Error("Failed to fetch store data");
 
       const data = await response.json();
-      console.log(data);
-      
-      setStoreData(data.stores);
 
-      // Calculate average rating
-      if (data.stores.rating?.length > 0) {
-        const totalRating = data.ratings.reduce((sum, item) => sum + item.rating, 0);
-        setAverageRating((totalRating / data.ratings.length).toFixed(1));
-      }
+      console.log(data);
+     
+      const email = JSON.parse(localStorage.getItem("user")).email;
+      //console.log(email);
+      
+      const ownerStores = data.stores.filter(store => store.email === email);
+      console.log(ownerStores);
+      
+      setStores(ownerStores);
+
+      
+      
+      
+      
+     
+
+      
     } catch (error) {
       console.error("Error fetching store data:", error);
     }
@@ -37,8 +60,18 @@ const Dashboard = () => {
 
       {/* Average Rating Display */}
       <div className="mb-6 p-4 bg-gray-800 rounded-lg shadow-md">
-        <h3 className="text-lg">Average Rating:</h3>
-        <p className="text-3xl font-bold">{averageRating} ⭐</p>
+
+        {
+          stores.map((store) => (
+            <div className="mb-4" key={store.id}>
+              <div>
+              <h3 className="text-lg font-semibold mb-2">Store Name: {store.name}</h3>
+              <p className="text-gray-400">Average Rating: {store.overallRating}</p>
+            </div>
+            </div>
+          ))
+        }
+        
       </div>
 
       {/* Ratings Table */}
@@ -49,16 +82,24 @@ const Dashboard = () => {
             <TableRow className="bg-gray-700">
               <TableHead className="text-white">Email</TableHead>
               <TableHead className="text-white">Rating</TableHead>
+              <TableHead className="text-white">Store Name</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {storeData.ratings?.length > 0 ? (
-              storeData.ratings.map((item, index) => (
-                <TableRow key={index} className="border-b border-gray-600 hover:bg-gray-800">
-                  <TableCell className="text-white">{item.email}</TableCell>
-                  <TableCell className="text-white">{item.rating} ⭐</TableCell>
-                </TableRow>
-              ))
+            {stores?.length > 0 ? (
+              
+              stores?.map((item, index) => (
+               
+                <React.Fragment key={index}>
+                {item.rating.map((rating, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-white">{rating.email}</TableCell>
+                    <TableCell className="text-white">{rating.rating}</TableCell>
+                    <TableCell className="text-white">{item.name}</TableCell>
+                  </TableRow>
+                ))}
+              </React.Fragment>
+            ))
             ) : (
               <TableRow>
                 <TableCell colSpan={2} className="text-center text-gray-400">
@@ -73,4 +114,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withOwnerAuth(Dashboard);

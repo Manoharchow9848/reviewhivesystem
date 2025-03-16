@@ -12,10 +12,12 @@ const DashboardPage = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalStoreOwners, setTotalStoreOwners] = useState(0);
   const [totalStores, setTotalStores] = useState(0);
+  const [rating,setRatings] = useState(0);
   useEffect(() => {
     countUsers(); 
     countStoreOwners();
     countStores();
+    fetchUsers();
   },[])
   const countUsers = async () => {
     try {
@@ -67,6 +69,34 @@ const countStores = async () => {
      console.error("Error fetching stores count:", error);
   }
 };
+
+const fetchUsers = async()=>{
+  try {
+    const response = await fetch("/api/getStores");
+      if (!response.ok) throw new Error("Failed to fetch stores");
+
+      const data = await response.json();
+      console.log(data.stores)
+
+      let totalCount = 0;
+      
+      data.stores.forEach((store) => {
+        totalCount += store?.count
+        
+        
+      });
+      console.log(totalCount);
+      setRatings(totalCount)
+      
+      
+      
+      
+      
+  } catch (error) {
+     console.log(error);
+     
+  }
+}
 
   return (
 
@@ -124,7 +154,7 @@ const countStores = async () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <h2 className="text-4xl font-bold">9</h2>
+            <h2 className="text-4xl font-bold">{rating}</h2>
           </CardContent>
           
         </Card>

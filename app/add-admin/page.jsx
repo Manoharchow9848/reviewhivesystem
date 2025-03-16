@@ -6,13 +6,15 @@ import { Button } from "../../components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
 import { LoaderCircle, Store } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { toast } from "sonner"; // Import toast
 import withDashAuth from "../hoc/withDashAuth";
-const AddStoreOwnerPage = () => {
+const AddAdmin = () => {
+
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{8,16}$/;
     return passwordRegex.test(password);
   };
+  
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [userData, setUserData] = useState({
@@ -20,18 +22,15 @@ const AddStoreOwnerPage = () => {
     email: "",
     password: "",
     address: "",
-    role: "store-owner",
+    role:"admin",
   });
+
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async () => {
-    if (
-      !userData.name ||
-      !userData.email ||
-      !userData.password ||
-      !userData.address
-    ) {
+    if (!userData.name || !userData.email || !userData.password || !userData.address) {
       toast.error("All fields are required! ❌");
       setLoading(false);
       return;
@@ -39,20 +38,20 @@ const AddStoreOwnerPage = () => {
 
     // Check if password is valid
     if (!validatePassword(userData.password)) {
-      toast.error(
-        "Password must be 8-16 characters long and contain at least one uppercase letter and one special character! ❌"
-      );
+      toast.error("Password must be 8-16 characters long and contain at least one uppercase letter and one special character! ❌");
       setLoading(false);
-
+     
       return;
     }
-    const toastId = toast.loading("Adding store owner... Please wait ");
+    const toastId = toast.loading("Signing up...");
     try {
       setLoading(true);
 
       // Check if fields are empty
+     
 
       // Show loading toast
+      
 
       const response = await fetch("/api/create-user", {
         method: "POST",
@@ -67,36 +66,34 @@ const AddStoreOwnerPage = () => {
       }
 
       const result = await response.json();
-      toast.success("Strore owner created successfully! 🎉");
+      toast.success("Admin created successfully! 🎉");
+      
 
       // Close loading toast and redirect
       toast.dismiss(toastId);
       router.push("/dashboard");
-    } catch (error) {
-      toast.error(`Failed to create Store owner: ${error.message} ❌`);
 
+    } catch (error) {
+      toast.error(`Failed to create Admin: ${error.message} ❌`);
+      console.error("Failed to create user:", error);
       toast.dismiss(toastId);
     } finally {
       setLoading(false);
+      
     }
   };
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-black text-white">
       <div className="bg-gray-900 p-8 rounded-lg shadow-lg w-96">
         <Store color="green" className="mx-auto mb-4" />
-        <h1 className="text-4xl font-bold text-center mb-4 text-gray-500">
-          Review Hive
-        </h1>
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-600">
-          Add Store Owner
-        </h2>
+        <h1 className="text-4xl font-bold text-center mb-4 text-gray-500">Review Hive</h1>
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-600">Add Admin</h2>
 
         <div className="space-y-4">
           {/* Name Field */}
           <div>
-            <label className="block text-gray-400 mb-1">
-              Enter store owner name
-            </label>
+            <label className="block text-gray-400 mb-1">Name</label>
             <Input
               type="text"
               name="name"
@@ -109,9 +106,7 @@ const AddStoreOwnerPage = () => {
 
           {/* Email Field */}
           <div>
-            <label className="block text-gray-400 mb-1">
-              Enter store owner email
-            </label>
+            <label className="block text-gray-400 mb-1">Email</label>
             <Input
               type="email"
               name="email"
@@ -124,7 +119,7 @@ const AddStoreOwnerPage = () => {
 
           {/* Password Field */}
           <div>
-            <label className="block text-gray-400 mb-1">Enter Password</label>
+            <label className="block text-gray-400 mb-1">Password</label>
             <Input
               type="password"
               name="password"
@@ -137,9 +132,7 @@ const AddStoreOwnerPage = () => {
 
           {/* Address Field */}
           <div>
-            <label className="block text-gray-400 mb-1">
-              Enter store owner address
-            </label>
+            <label className="block text-gray-400 mb-1">Address</label>
             <Textarea
               name="address"
               placeholder="Enter your address"
@@ -150,20 +143,15 @@ const AddStoreOwnerPage = () => {
           </div>
 
           {/* Sign Up Button */}
-          <Button
-            onClick={handleSubmit}
-            className="cursor-pointer w-full bg-blue-500 hover:bg-blue-600"
-          >
-            {loading ? (
-              <LoaderCircle className="animate-spin mr-2" size={16} />
-            ) : (
-              "Add Store Owner"
-            )}
+          <Button onClick={handleSubmit} className="cursor-pointer w-full bg-blue-500 hover:bg-blue-600">
+            {loading ? <LoaderCircle className="animate-spin mr-2" size={16} /> : "Add Admin"}
           </Button>
         </div>
+
+        
       </div>
     </div>
   );
 };
 
-export default withDashAuth(AddStoreOwnerPage);
+export default withDashAuth(AddAdmin);
