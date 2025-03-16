@@ -11,7 +11,7 @@ import React from "react";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { UserDetailContext } from "../../context/userDetailContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function Header() {
    const { userDetail,setUserDetail } = React.useContext(UserDetailContext);
