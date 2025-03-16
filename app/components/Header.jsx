@@ -11,10 +11,12 @@ import React from "react";
 import Link from "next/link";
 import { Store } from "lucide-react";
 import { UserDetailContext } from "../../context/userDetailContext";
+import { useRouter } from "next/router";
 
 function Header() {
    const { userDetail,setUserDetail } = React.useContext(UserDetailContext);
   const user = userDetail;
+  const router = useRouter();
 
   return (
     <header className="fixed top-0 left-0 w-full bg-gray-900 text-white py-3 px-6 flex items-center justify-between shadow-md z-50">
@@ -64,7 +66,7 @@ function Header() {
               {user?.role==="system" && <DropdownMenuItem asChild>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>}
-              <DropdownMenuItem onClick={() =>{ localStorage.removeItem("user"); setUserDetail(null)}} className="text-red-500">
+              <DropdownMenuItem onClick={() =>{ localStorage.removeItem("user");  setUserDetail(null); router.push("/login");}} className="text-red-500">
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
